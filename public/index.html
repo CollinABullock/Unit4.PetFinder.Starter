@@ -5,11 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <title>Pet Finder</title>
 </head>
 <body>
     <h1>Pet Finder</h1>
-    
-    <script src="script.js"></script>
+    <ul></ul>
+        
+    <script>
+        // okay, breaking into javascript cause I couldn't get this script to work in the js file.
+        // First thing I need to do is tell the computer where I want to put the information I'm going to rend from the data file.  First part of that is declaring a variable and using a query selector so it puts it all in the ul.  I'm going to append child to this later!
+        const ul = document.querySelector("ul")
+        // now I'm going to get an array of all the pets, usng a fetch request.
+        fetch("http://localhost:8080/api/pets")
+        // down here I'm taking the response to the fetch request and turning it into json
+        .then((Response) => Response.json())
+        .then((pets) => {
+            pets.forEach((pet) => {
+                const li = document.createElement("li");
+                li.innerHTML = 
+                `
+                <div class="dogCard">
+                <h1>${pet.name}</h1>
+                <h3>Breed: ${pet.breed}</h3>
+                <h3>Owner: ${pet.owner} (${pet.telephone})</h3>
+                <h3>Upcoming Appointments:</h3>
+                <ul>
+                    <li>${pet.appointments.date}</li>    
+                </ul>
+                </div>`;
+                ul.appendChild(li)
+            });
+        });
+    </script>
 </body>
 </html>
